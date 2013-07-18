@@ -21,9 +21,9 @@ app.get('/p/:name', routes.p); //redirect routes
 
 app.get('/api/contacts', api.contacts); //look at all
 app.get('/api/contact/:id', api.contact); //look at one
-app.post('/api/contact', api.add); //add application
-app.put('/api/contact/:id', api.edit); //edit&update application
-app.delete('/api/contact/:id', api.delete); //delete application
+app.post('/api/contact', api.add); //add contact
+app.put('/api/contact/:id', api.edit); //edit&update contact
+app.delete('/api/contact/:id', api.delete); //delete contact
 app.get('*', routes.index);
 
 app.listen(1222, function(){
