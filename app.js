@@ -12,7 +12,7 @@ app.configure(function() {
   app.use(express.static(__dirname + '/public'));
   app.use(app.router);
   app.set('views', __dirname + '/views');
-  app.set('port', 8002);
+  app.set('port', 1222);
   app.engine('html', require('ejs').renderFile);
 });
 
