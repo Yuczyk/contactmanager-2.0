@@ -1,0 +1,176 @@
+<p ng-show="showMessage"> {{ message }}</p>
+<ul class="inline">
+  <li ng-if="contacts.length == 0">You have no contacts.</li>
+  <li ng-if="contacts.length == 1">You have {{ contacts.length }} contact.</li>
+  <li ng-if="contacts.length > 1">You have {{ contacts.length }} contacts.</li>
+  <li>
+    <div class="input-prepend">
+      <span class="add-on"><i class="icon-search"></i></span>
+      <input class="span2" id="inputIcon" type="text" placeholder="Search..." ng-model="query">
+    </div>
+  </li>
+</ul>
+<table class="table table-hover" ng-show="contacts.length >= 1" >
+  <thead>
+    <tr>
+      <th ng-repeat="header in headers"><a href="#" ng-click="columnSort.sortColumn=headers[$index];columnSort.reverse=!columnSort.reverse">{{ headers[$index] | capitalise }}</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="contact in contacts |  orderBy:columnSort.sortColumn:columnSort.reverse | filter: query">
+        <td>{{ contact.name }}</td>
+        <td>{{ contact.phone }} </td>
+        <td><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></td>
+        <td>
+          <a class="btn btn-info" ng-click="view('{{ contact._id }} ')"><i class="icon-eye-open icon-white"></i> View more</a>
+          <a class="btn btn-warning" ng-click="edit('{{ contact._id }}', '{{ contact.name }}')"><i class="icon-pencil icon-white"></i> Edit</a>
+          <a class="btn btn-danger" href="#" ng-click="delete('{{ contact._id }}', '{{ contact.name }}')"><i class="icon-trash icon-white"></i> Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <a class="btn btn-info" ng-click="add()"><i class="icon-plus icon-white"></i> </a>
+  
+  <!-- add contact modal -->
+  <div modal="contactAdd" close="closeAdd()" options="opts">
+      <div class="modal-header">
+          <h3>Add a contact</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" ng-model="addForm">
+          <div class="control-group">
+            <label class="control-label" for="inputName">Name</label>
+            <div class="controls">
+              <input type="text" id="inputName" ng-model="form.add.name" name="name" placeholder="Name">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPhone">Phone</label>
+            <div class="controls">
+              <input type="text" id="inputPhone" ng-model="form.add.phone" name="phone" placeholder="Phone">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">E-mail</label>
+            <div class="controls">
+              <span class="add-on"><i class="icon-envelope"> </i></span><input type="text" id="prependedInput" ng-model="form.add.email" name="email" placeholder="E-mail">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">Facebook</label>
+            <div class="controls">
+              <span class="add-on">F </i></span><input type="text" id="prependedInput" ng-model="form.add.facebook" name="facebook" placeholder="Facebook ID">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">Twitter</label>
+            <div class="controls">
+              <span class="add-on">@</i></span><input type="text" id="prependedInput" ng-model="form.add.twitter" name="twitter" placeholder="Twitter ID">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">Skype</label>
+            <div class="controls">
+              <span class="add-on"><i class="icon-headphones"> </i></span><input type="text" id="prependedInput" ng-model="form.add.skype" name="skype" placeholder="Skype ID">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button ng-click="addContact()" class="btn btn-info"><i class="icon-plus icon-white"></i> Add Contact</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="closeAdd()">Cancel</button>
+      </div>
+  </div>
+  <!-- edit contact modal -->
+  <div modal="contactEdit" close="closeEdit()" options="opts">
+      <div class="modal-header">
+          <h3>Edit - {{ name }}</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="inputName">Name</label>
+            <div class="controls">
+              <input type="text" id="inputName" ng-model="form.edit.name" name="name" placeholder="Name">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputPhone">Phone</label>
+            <div class="controls">
+              <input type="text" id="inputPhone" ng-model="form.edit.phone" name="phone" placeholder="Phone">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">E-mail</label>
+            <div class="controls">
+              <span class="add-on"><i class="icon-envelope"> </i></span><input type="text" id="prependedInput" ng-model="form.edit.email" name="email" placeholder="E-mail">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">Facebook</label>
+            <div class="controls">
+              <span class="add-on">F </i></span><input type="text" id="prependedInput" ng-model="form.edit.facebook" name="facebook" placeholder="Facebook ID">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">Twitter</label>
+            <div class="controls">
+              <span class="add-on">@</i></span><input type="text" id="prependedInput" ng-model="form.edit.twitter" name="twitter" placeholder="Twitter ID">
+            </div>
+          </div>
+          <div class="control-group input-prepend">
+            <label class="control-label" for="prependedInput">Skype</label>
+            <div class="controls">
+              <span class="add-on"><i class="icon-headphones"> </i></span><input type="text" id="prependedInput" ng-model="form.edit.skype" name="skype" placeholder="Skype ID">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" ng-click="editContact()" class="btn btn-info"><i class="icon-pencil icon-white"></i> Edit Contact</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="closeEdit()">Cancel</button>
+      </div>
+  </div>
+  <!-- delete contact modal -->
+  <div modal="contactDelete" close="closeDelete()" options="opts">
+      <div class="modal-header">
+          <h3>Confirmation</h3>
+      </div>
+      <div class="modal-body">
+        Are you sure you'd like to delete {{ name }}?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success ok" ng-click="deleteContact()">OK</button>
+        <button class="btn btn-warning cancel" ng-click="closeDelete()">Cancel</button>
+      </div>
+  </div>
+  <!-- view contact modal -->
+  <div modal="contactView" close="closeView()" options="opts">
+      <div class="modal-header">
+          <h3>{{ contact.name }}</h3>
+      </div>
+      <div class="modal-body">
+
+        <dl class="dl-horizontal">
+          <dt ng-repeat="header in allheaders ">{{ header | capitalise}}:</dt>
+            <dd>{{ contact.name }}</dd>
+            <dd>{{ contact.phone || " - " }}</dd>
+            <dd><a href="mailto:{{ contact.email }}">{{ contact.email || " - " }}</a></dd>
+            <dd><a href="https://www.facebook.com/{{ contact.facebook }}" target="_blank">{{ contact.facebook || " - "}}</a></dd>
+            <dd><a href="https://www.twitter.com/{{ contact.twitter }}" target="_blank">{{ contact.twitter || " - " }}</a></dd>
+            <dd><a href="skype://{{ contact.skype }}?call">{{ contact.skype || " - " }}</a></dd>
+        </dl>
+
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning cancel" ng-click="closeView()">Cancel</button>
+      </div>
+  </div>
