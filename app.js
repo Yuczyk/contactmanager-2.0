@@ -2,6 +2,7 @@ var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api');
 var app = module.exports = express();
+var fs = require('fs');
 
 app.configure(function() {
   app.locals.pretty = true;
@@ -10,6 +11,8 @@ app.configure(function() {
   app.use(express.session({ secret: 'secret!' }));
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
+  app.use('/components', express.static(__dirname + '/components'));
+  console.log(__dirname);
   app.use(app.router);
   app.set('views', __dirname + '/views');
   app.set('port', 1222);
@@ -24,7 +27,7 @@ app.get('/api/contact/:id', api.contact); //look at one
 app.post('/api/contact', api.add); //add contact
 app.put('/api/contact/:id', api.edit); //edit&update contact
 app.delete('/api/contact/:id', api.delete); //delete contact
-app.get('*', routes.index);
+//dapp.get('*', routes.index);
 
 app.listen(1222, function(){
   console.log("Express server up and running for the API on port 1222.");

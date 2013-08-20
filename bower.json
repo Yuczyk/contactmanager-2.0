@@ -1,0 +1,12 @@
+{
+    "name":  "Contact Manager",
+    "version": "0.0.1",
+    "dependencies": {
+        "bootstrap": "2.3.2",
+        "angular": "1.2.0rc1",
+        "angular-route": "latest",
+        "jquery": "latest",
+        "angular-bootstrap": "0.4.0"
+    },
+    "directory": "components"
+}
