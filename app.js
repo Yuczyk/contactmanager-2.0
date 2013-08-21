@@ -2,7 +2,6 @@ var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api');
 var app = module.exports = express();
-var fs = require('fs');
 
 app.configure(function() {
   app.locals.pretty = true;
